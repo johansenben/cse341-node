@@ -6,7 +6,7 @@ const doc = {
         title: "Contacts API",
         description: "Contacts API"
     },
-    host: process.env.DEV ? `localhost:${process.env.PORT}` : "https://cse341-l5zf.onrender.com",
+    host: process.env.DEV ? `localhost:${process.env.PORT}` : "cse341-l5zf.onrender.com",
     schemes: process.env.DEV ? [ "http", "https" ] : [ "https" ]
 }
 
