@@ -43,8 +43,9 @@ const addContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
     //#swagger.tags=['Contacts']
-    const { _id, firstName, lastName, email, favoriteColor, birthday } = req.body;
-    const result = await mongoDb.getDatabase().db().collection("contacts").replaceOne({ _id: new ObjectId(_id) }, {
+    const _id = new ObjectId(req.params.id);
+    const { firstName, lastName, email, favoriteColor, birthday } = req.body;
+    const result = await mongoDb.getDatabase().db().collection("contacts").replaceOne({ _id }, {
         firstName,
         lastName,
         email,
@@ -61,8 +62,8 @@ const updateContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
     //#swagger.tags=['Contacts']
-    const { _id } = req.body;
-    const result = await mongoDb.getDatabase().db().collection("contacts").deleteOne({ _id: new ObjectId(_id) });
+    const _id = new ObjectId(req.params.id);
+    const result = await mongoDb.getDatabase().db().collection("contacts").deleteOne({ _id });
     if (result.deletedCount > 0) {
         res.status(204).send();
     } else {

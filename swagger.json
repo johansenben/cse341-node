@@ -104,7 +104,7 @@
         }
       }
     },
-    "/contacts/update": {
+    "/contacts/update/{id}": {
       "put": {
         "tags": [
           "Contacts"
@@ -112,14 +112,17 @@
         "description": "",
         "parameters": [
           {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "_id": {
-                  "example": "any"
-                },
                 "firstName": {
                   "example": "any"
                 },
@@ -149,7 +152,7 @@
         }
       }
     },
-    "/contacts/delete": {
+    "/contacts/delete/{id}": {
       "delete": {
         "tags": [
           "Contacts"
@@ -157,16 +160,10 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

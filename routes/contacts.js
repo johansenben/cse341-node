@@ -7,9 +7,9 @@ router.get("/:id", contactsController.getSingle);
 
 router.post("/add", contactsController.addContact);
 
-router.put("/update", contactsController.updateContact);
+router.put("/update/:id", contactsController.updateContact);
 
-router.delete("/delete", contactsController.deleteContact);
+router.delete("/delete/:id", contactsController.deleteContact);
 
 
 module.exports = router;
