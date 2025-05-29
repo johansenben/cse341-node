@@ -18,7 +18,7 @@ router.delete("/delete-all", booksController.deleteAllBooks);
 
 router.post("/add-review/:id", addReviewReq, checkValidation, booksController.addReview);
 
-router.delete("/delete-reviews/:id", booksController.deleteReviews)
+router.delete("/delete-reviews/:id", booksController.deleteReviews);
 
 /**
  * todo

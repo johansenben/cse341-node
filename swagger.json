@@ -62,54 +62,6 @@
         }
       }
     },
-    "/books/add": {
-      "post": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "author": {
-                  "example": "any"
-                },
-                "pageCount": {
-                  "example": "any"
-                },
-                "seriesName": {
-                  "example": "any"
-                },
-                "bookNumInSeries": {
-                  "example": "any"
-                },
-                "starRating": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/books/update/{id}": {
       "put": {
         "tags": [
