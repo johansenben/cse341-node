@@ -14,7 +14,7 @@ const requireSignIn = async (req, res, next) => {
     if (id && username)
         next();
     else
-        res.status(500).json('User needs to sign in to github! Use route: "/oauth/login\"');
+        res.status(500).json('User needs to sign in to github! Use route: "/oauth/login"');
 }
 
 module.exports = { checkValidation, requireSignIn };
