@@ -18,7 +18,8 @@ const addReviewReq = [
 ];
 
 const updateReviewReq = [
-    ...addReviewReq
+    check("review").isString().isLength({min: 1}),
+    check("stars").isFloat({min: 1, max: 5})
 ]
 
 module.exports = { addReviewReq, updateReviewReq };
