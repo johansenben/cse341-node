@@ -7,7 +7,7 @@ const doc = {
         description: "Contacts API"
     },
     host: process.env.DEV ? `localhost:${process.env.PORT}` : "cse341-l5zf.onrender.com",
-    schemes: process.env.DEV ? [ "http", "https" ] : [ "https" ]
+    schemes: process.env.DEV ? [ "http" ] : [ "https" ]
 }
 
 const outputFile = "./swagger.json";

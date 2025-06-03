@@ -8,7 +8,7 @@ router.get("/", booksController.getAll);
 router.get("/:id", booksController.getSingle);
 
 router.post("/add", addBookReq, checkValidation, booksController.addBook);
-router.post("/add-many", addBooksReq, checkValidation, booksController.addBooks);
+//router.post("/add-many", addBooksReq, checkValidation, booksController.addBooks);
 
 router.put("/update/:id", updateBookReq, checkValidation, booksController.updateBook);
 
@@ -16,9 +16,9 @@ router.delete("/delete/:id", booksController.deleteBook);
 router.delete("/delete-all", booksController.deleteAllBooks);
 
 
-router.post("/add-review/:id", addReviewReq, checkValidation, booksController.addReview);
+//router.post("/add-review/:id", addReviewReq, checkValidation, booksController.addReview);
 
-router.delete("/delete-reviews/:id", booksController.deleteReviews);
+//router.delete("/delete-reviews/:id", booksController.deleteReviews);
 
 /**
  * todo

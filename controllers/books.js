@@ -43,7 +43,7 @@ const getSingle = async (req, res) => {
 const addBook = async (req, res) => {
     //#swagger.tags=['Books']
     try {
-        const { title, author, pageCount, seriesName, bookNumInSeries, starRating } = req.body;
+        const { title, author, pageCount, seriesName, bookNumInSeries, starRating, description } = req.body;
         const result = await mongoDb.getDatabase().db().collection("books").insertOne({
             title, 
             author,
@@ -51,7 +51,7 @@ const addBook = async (req, res) => {
             seriesName: seriesName ?? "N/A", 
             bookNumInSeries: bookNumInSeries ?? "N/A",
             starRating,
-            reviews: []
+            description,
         });
 
         if (result.acknowledged) {
@@ -67,49 +67,11 @@ const addBook = async (req, res) => {
     }
 }
 
-//for recreating the collection quickly; use rest client, not swagger (swagger autogen doesn't think theres any fields)
-const addBooks = async (req, res) => {
-    //#swagger.ignore=true
-    try {
-        const addedIDs = [];
-        const books = req.body;
-        if (books?.length > 0) {
-            for (const book of books) {
-                const { title, author, pageCount, seriesName, bookNumInSeries, starRating } = book;
-                const result = await mongoDb.getDatabase().db().collection("books").insertOne({
-                    title, 
-                    author,
-                    pageCount,
-                    seriesName: seriesName ?? "N/A", 
-                    bookNumInSeries: bookNumInSeries ?? "N/A", 
-                    starRating,
-                    reviews: []
-                });
-
-                if (result.acknowledged) {
-                    addedIDs.push(result.insertedId);
-                    return;
-                }
-                res.status(500).json(result.error || "Error adding books!");
-                return;
-            };
-            if (addedIDs.length > 0) {
-                res.status(200).json(addedIDs);
-                return;
-            }
-            res.status(500).json("Error adding books!");
-            return;
-        }
-    } catch (error) {
-        res.status(500).json(error || "Error adding books!");
-    }
-}
-
 const updateBook = async (req, res) => {
     //#swagger.tags=['Books']
     try {
         const _id = new ObjectId(req.params.id);
-        const { title, author, pageCount, seriesName, bookNumInSeries, starRating, reviews } = req.body;
+        const { title, author, pageCount, seriesName, bookNumInSeries, starRating, description } = req.body;
         const result = await mongoDb.getDatabase().db().collection("books").replaceOne({ _id }, 
         {
             title, 
@@ -118,7 +80,7 @@ const updateBook = async (req, res) => {
             seriesName: seriesName ?? "N/A", 
             bookNumInSeries: bookNumInSeries ?? "N/A", 
             starRating,
-            reviews: reviews || []
+            description
         });
         if (result.modifiedCount > 0) {
             res.status(204).send();
@@ -165,51 +127,51 @@ const deleteAllBooks = async (req, res) => {
 }
 
 
-const addReview = async (req, res) => {
-    //#swagger.tags=['Books-Review']
-    try {
-        const _id = new ObjectId(req.params.id);
-        const { reviewerName, reviewerID, review, stars } = req.body;
-        const result = await mongoDb.getDatabase().db().collection("books").updateOne(
-            { _id }, 
-            {
-                $push: {
-                    reviews: { reviewerName, reviewerID, review, stars }
-                }
-            }
-        );
-        if (result.modifiedCount > 0) {
-            res.status(204).send();
-            return;
-        } 
-        res.status(500).json(result.error || "Error adding review!");
-        return;
-    } catch (error) {
-        res.status(500).json(error || "Error adding review!");
-    }
-}
+// const addReview = async (req, res) => {
+//     //#swagger.tags=['Books-Review']
+//     try {
+//         const _id = new ObjectId(req.params.id);
+//         const { reviewerName, reviewerID, review, stars } = req.body;
+//         const result = await mongoDb.getDatabase().db().collection("books").updateOne(
+//             { _id }, 
+//             {
+//                 $push: {
+//                     reviews: { reviewerName, reviewerID, review, stars }
+//                 }
+//             }
+//         );
+//         if (result.modifiedCount > 0) {
+//             res.status(204).send();
+//             return;
+//         } 
+//         res.status(500).json(result.error || "Error adding review!");
+//         return;
+//     } catch (error) {
+//         res.status(500).json(error || "Error adding review!");
+//     }
+// }
 
-const deleteReviews = async (req, res) => {
-    //#swagger.tags=['Books-Review']
-    try {
-        const _id = new ObjectId(req.params.id);
-        const result = await mongoDb.getDatabase().db().collection("books").updateOne(
-            { _id }, 
-            {
-                $set: {
-                    reviews: []
-                }
-            }
-        );
-        if (result.modifiedCount > 0) {
-            res.status(204).send();
-            return;
-        } 
-        res.status(500).json(result.error || "Error deleting reviews!");
-        return;
-    } catch (error) {
-        res.status(500).json(error || "Error deleting reviews!");
-    }
-}
+// const deleteReviews = async (req, res) => {
+//     //#swagger.tags=['Books-Review']
+//     try {
+//         const _id = new ObjectId(req.params.id);
+//         const result = await mongoDb.getDatabase().db().collection("books").updateOne(
+//             { _id }, 
+//             {
+//                 $set: {
+//                     reviews: []
+//                 }
+//             }
+//         );
+//         if (result.modifiedCount > 0) {
+//             res.status(204).send();
+//             return;
+//         } 
+//         res.status(500).json(result.error || "Error deleting reviews!");
+//         return;
+//     } catch (error) {
+//         res.status(500).json(error || "Error deleting reviews!");
+//     }
+// }
 
-module.exports = { getAll, getSingle, addBook, addBooks, updateBook, addReview, deleteBook, deleteAllBooks, deleteReviews };
+module.exports = { getAll, getSingle, addBook, updateBook, deleteBook, deleteAllBooks };

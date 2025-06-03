@@ -8,20 +8,9 @@
   "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "http"
   ],
   "paths": {
-    "/api-docs": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/books/": {
       "get": {
         "tags": [
@@ -34,6 +23,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -58,6 +50,60 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/books/add": {
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "author": {
+                  "example": "any"
+                },
+                "pageCount": {
+                  "example": "any"
+                },
+                "seriesName": {
+                  "example": "any"
+                },
+                "bookNumInSeries": {
+                  "example": "any"
+                },
+                "starRating": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -99,7 +145,7 @@
                 "starRating": {
                   "example": "any"
                 },
-                "reviews": {
+                "description": {
                   "example": "any"
                 }
               }
@@ -159,10 +205,98 @@
         }
       }
     },
-    "/books/add-review/{id}": {
+    "/reviews/": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reviews/{id}": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reviews/add/{bookID}": {
       "post": {
         "tags": [
-          "Books-Review"
+          "Reviews"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "bookID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "stars": {
+                  "example": "any"
+                },
+                "review": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reviews/update/{id}": {
+      "put": {
+        "tags": [
+          "Reviews"
         ],
         "description": "",
         "parameters": [
@@ -178,12 +312,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "reviewerName": {
-                  "example": "any"
-                },
-                "reviewerID": {
-                  "example": "any"
-                },
                 "review": {
                   "example": "any"
                 },
@@ -207,10 +335,10 @@
         }
       }
     },
-    "/books/delete-reviews/{id}": {
+    "/reviews/delete/{id}": {
       "delete": {
         "tags": [
-          "Books-Review"
+          "Reviews"
         ],
         "description": "",
         "parameters": [
@@ -222,24 +350,19 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       }
     },
-    "/reviewers/": {
+    "/oauth/login": {
       "get": {
         "tags": [
-          "Reviewers"
+          "Oauth"
         ],
+        "summary": "Doesn't work in swagger; Use the search bar in your browser.",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -247,128 +370,15 @@
         }
       }
     },
-    "/reviewers/{id}": {
+    "/oauth/logout": {
       "get": {
         "tags": [
-          "Reviewers"
+          "Oauth"
         ],
         "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/reviewers/add": {
-      "post": {
-        "tags": [
-          "Reviewers"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/reviewers/update/{id}": {
-      "put": {
-        "tags": [
-          "Reviewers"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/reviewers/delete/{id}": {
-      "delete": {
-        "tags": [
-          "Reviewers"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }

@@ -8,4 +8,13 @@ const checkValidation = async (req, res, next) => {
     next();
 }
 
-module.exports = { checkValidation };
+const requireSignIn = async (req, res, next) => {
+    const id = req.session.passport?.user?.id;
+    const username = req.session.passport?.user?.username;
+    if (id && username)
+        next();
+    else
+        res.status(500).json("User needs to sign in to github! Use route: \"/oauth/login\"");
+}
+
+module.exports = { checkValidation, requireSignIn };
